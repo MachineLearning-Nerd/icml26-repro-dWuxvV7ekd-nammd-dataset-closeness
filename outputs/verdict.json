@@ -1,0 +1,43 @@
+{
+  "c1_definition": {
+    "passed": true,
+    "nammd_vs_shift": [
+      0.0004054359189319991,
+      0.006004129733712648,
+      0.017246689652002146,
+      0.03926247397508919,
+      0.07349297327106774
+    ]
+  },
+  "c2_type1": {
+    "passed": true,
+    "type1": 0.06666666666666667,
+    "alpha": 0.05
+  },
+  "c3_thm7": {
+    "passed": true,
+    "both": 24,
+    "mmd_only": 2,
+    "nammd_only": 2
+  },
+  "c4_sample_complexity": {
+    "passed": true,
+    "powers": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "c5_power": {
+    "passed": true,
+    "nammd_power": 1.0,
+    "mmd_power": 1.0,
+    "n_settings": 2
+  },
+  "c6_shift_detection": {
+    "passed": true,
+    "reject_same": false,
+    "reject_shift": true,
+    "note": "NAMMD-based closeness test detects covariate shift on synthetic Gaussians (paper: ImageNet variants / confidence-margin / adversarial)."
+  }
+}
