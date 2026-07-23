@@ -1,0 +1,27 @@
+{
+  "a_term": 0.6999850864611726,
+  "assumptions": {
+    "both_alternatives": true,
+    "delta_in_0_half": true,
+    "integer_in_c1_c2": true,
+    "same_kernel": true,
+    "strict_norm_order": true
+  },
+  "b_term": 0.05000028281020986,
+  "c1": 61805.30083121877,
+  "c2": 61806.78619404116,
+  "delta": 0.007597975333400241,
+  "m": 61806,
+  "power_advantage": 0.015336550797451998,
+  "reference_variances": [
+    0.2376507628281971,
+    0.26258447084718184
+  ],
+  "searched_tuples": 750000,
+  "target_1_over_65": 0.015384615384615385,
+  "test_variances": [
+    0.21773289592006245,
+    0.24666224095067044
+  ],
+  "violation_margin": 4.8064587163387795e-05
+}

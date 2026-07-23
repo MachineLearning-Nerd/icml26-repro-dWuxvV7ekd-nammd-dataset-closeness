@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="600" viewBox="0 0 1200 600" role="img" aria-labelledby="title desc">
+  <title id="title">Theorem 7/9 power advantage</title>
+  <desc id="desc">The paper Gaussian example is above one over 65, while the admissible counterexample and proof lower step are slightly below.</desc>
+  <rect width="1200" height="600" fill="#ffffff"/>
+  <text x="75" y="64" fill="#0f172a" font-family="Arial, sans-serif" font-size="34" font-weight="700">Theorem 7/9: the 1/65 margin misses by 4.81e−5</text>
+  <text x="75" y="102" fill="#475569" font-family="Arial, sans-serif" font-size="19">Asymptotic NAMMD-only power advantage</text>
+  <line x1="330" y1="475" x2="1090" y2="475" stroke="#94a3b8" stroke-width="2"/>
+  <g fill="#475569" font-family="Arial, sans-serif" font-size="15">
+    <text x="325" y="505">0.0153</text><text x="510" y="505">0.0165</text><text x="695" y="505">0.0177</text>
+    <text x="880" y="505">0.0189</text><text x="1055" y="505">0.0201</text>
+  </g>
+  <g font-family="Arial, sans-serif">
+    <text x="75" y="195" fill="#0f172a" font-size="21">Proof endpoint</text>
+    <rect x="330" y="160" width="7" height="48" rx="3" fill="#f59e0b"/>
+    <text x="350" y="191" fill="#92400e" font-size="18">0.015336300</text>
+    <text x="75" y="305" fill="#0f172a" font-size="21">Counterexample</text>
+    <rect x="330" y="270" width="7.5" height="48" rx="3" fill="#e11d48"/>
+    <text x="350" y="301" fill="#9f1239" font-size="18" font-weight="700">0.015336551</text>
+    <text x="75" y="415" fill="#0f172a" font-size="21">Paper Example 2</text>
+    <rect x="330" y="380" width="720" height="48" rx="5" fill="#10b981"/>
+    <text x="1065" y="411" fill="#065f46" font-size="18" font-weight="700">0.019944114</text>
+  </g>
+  <line x1="343" y1="130" x2="343" y2="475" stroke="#7c3aed" stroke-width="3" stroke-dasharray="9 7"/>
+  <text x="354" y="137" fill="#6d28d9" font-family="Arial, sans-serif" font-size="17" font-weight="700">1/65 = 0.015384615</text>
+  <text x="75" y="555" fill="#475569" font-family="Arial, sans-serif" font-size="18">The paper’s own example passes; the quantified theorem does not.</text>
+</svg>

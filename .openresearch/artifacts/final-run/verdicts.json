@@ -1,0 +1,27 @@
+{
+  "claim_1": {
+    "verdict": "VERIFIED",
+    "scope": "Definition 1 under bounded nonnegative shift-invariant positive-definite kernel assumptions"
+  },
+  "claim_2": {
+    "verdict": "FALSIFIED",
+    "scope": "unqualified finite arXiv v1 Theorem 4 statement",
+    "qualification": "The corrected v3 asymptotic theorem remains BLOCKED."
+  },
+  "claim_3": {
+    "verdict": "FALSIFIED",
+    "scope": "Theorem 7 (v1)/Theorem 9 (v3) 1/65 asymptotic NAMMD-only power margin"
+  },
+  "claim_4": {
+    "verdict": "VERIFIED",
+    "scope": "Theorem 5 (v1)/Theorem 7 (v3) sufficient-bound inverse-square scaling"
+  },
+  "claim_5": {
+    "verdict": "BLOCKED",
+    "scope": "five-dataset Table 2 averages"
+  },
+  "claim_6": {
+    "verdict": "BLOCKED",
+    "scope": "conjunction of all three case studies"
+  }
+}

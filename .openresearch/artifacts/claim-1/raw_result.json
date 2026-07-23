@@ -1,0 +1,17 @@
+{
+  "analytic_obligations": {
+    "denominator_lower_bound": 2.0,
+    "numerator_upper_bound": 2.0,
+    "separated_dirac_value": 1.0
+  },
+  "finite_support_rbf_cases": 4000,
+  "minimum_kernel_eigenvalue": 0.0008973816839797919,
+  "observed_nammd_range": [
+    7.176822882354745e-08,
+    0.8731491563963739
+  ],
+  "raw_csv": {
+    "path_at_runtime": "outputs/claim_1_raw.csv",
+    "sha256": "55a5ca0dae68916dff64f43635162e9749fb20d8448fe065a99f6b468f3fe260"
+  }
+}

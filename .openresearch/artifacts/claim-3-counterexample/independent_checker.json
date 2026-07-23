@@ -1,0 +1,8 @@
+{
+  "assumptions_hold": true,
+  "method": "adaptive numerical integration of influence moments plus math.erf CDF",
+  "passed": true,
+  "power_advantage": 0.015336550797448945,
+  "sigma_absolute_error": 1.5785983631388945e-16,
+  "target_1_over_65": 0.015384615384615385
+}

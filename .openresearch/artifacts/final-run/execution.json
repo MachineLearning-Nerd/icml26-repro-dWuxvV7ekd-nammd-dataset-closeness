@@ -1,0 +1,28 @@
+{
+  "command": "uv run --frozen python repro/src/verify_nammd.py",
+  "compute": {
+    "backend": "local",
+    "cpu": "Apple M2",
+    "cpu_count": 8,
+    "gpu_used": false,
+    "cost_usd": 0
+  },
+  "environment": {
+    "manager": "uv",
+    "python": "3.9.25",
+    "uv": "0.11.29",
+    "lockfile": "uv.lock",
+    "venv": ".venv"
+  },
+  "evidence_run": {
+    "branch": "orx/claim-3-admissible-gaussian-counterexample-searc",
+    "commit": "ee9464863e499c350da0140321a99f6fc77a245d",
+    "run_id": "9091ac45-6f86-41e3-bfe2-45d67c8644f8",
+    "runtime_seconds_in_verifier": 11.575814542000003,
+    "wall_runtime": "1m40s"
+  },
+  "seeds": [
+    12843,
+    250712843
+  ]
+}

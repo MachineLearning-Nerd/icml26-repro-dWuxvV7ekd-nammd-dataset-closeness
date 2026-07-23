@@ -1,0 +1,6 @@
+{
+  "absolute_error": 0.0,
+  "method": "independent brute force over every ordered binary x/y sequence",
+  "passed": true,
+  "rejection_probability": 0.1853020188851843
+}

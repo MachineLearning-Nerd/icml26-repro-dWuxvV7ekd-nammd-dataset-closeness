@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "title": "Repro - Are Two Datasets Close Enough With Statistical Significance",
+  "emoji": "🎯",
+  "space_id": "DineshAI/dWuxvV7ekd",
+  "paper": null,
+  "tags": [
+    "icml2026-repro",
+    "paper-dWuxvV7ekd"
+  ],
+  "updated_at": "2026-07-23T14:43:42+00:00",
+  "root": {
+    "slug": "index",
+    "title": "Repro - Are Two Datasets Close Enough With Statistical Significance",
+    "file": "pages/index.md",
+    "children": [
+      {
+        "slug": "overview",
+        "title": "Overview",
+        "file": "pages/overview/page.md",
+        "children": []
+      },
+      {
+        "slug": "claims",
+        "title": "Claims",
+        "file": "pages/claims/page.md",
+        "children": []
+      },
+      {
+        "slug": "evidence",
+        "title": "Evidence",
+        "file": "pages/evidence/page.md",
+        "children": []
+      },
+      {
+        "slug": "verification-run",
+        "title": "Verification run",
+        "file": "pages/verification-run/page.md",
+        "children": []
+      },
+      {
+        "slug": "conclusion",
+        "title": "Conclusion",
+        "file": "pages/conclusion/page.md",
+        "children": []
+      },
+      {
+        "slug": "rigorous-verdicts-2026-07-23",
+        "title": "Rigorous verdicts — 2026-07-23",
+        "file": "pages/rigorous-verdicts-2026-07-23/page.md",
+        "children": []
+      },
+      {
+        "slug": "rigorous-evidence-2026-07-23",
+        "title": "Rigorous evidence and provenance",
+        "file": "pages/rigorous-evidence-2026-07-23/page.md",
+        "children": []
+      }
+    ]
+  },
+  "agent_view_tokens": 1644,
+  "revision": "candidate-2026-07-23"
+}

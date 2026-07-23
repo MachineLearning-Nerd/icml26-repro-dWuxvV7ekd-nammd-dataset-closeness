@@ -1,0 +1,9 @@
+{
+  "cases": 814,
+  "method": "exact Fraction arithmetic over all two-point probabilities with denominators 2 through 12",
+  "passed": true,
+  "range": [
+    "0",
+    "1"
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "failed_as_intended": true,
+  "mutation": "replace denominator 4K-a-b by 2K-a-b",
+  "opposite_dirac_result": "division_by_zero"
+}

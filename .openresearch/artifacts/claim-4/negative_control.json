@@ -1,0 +1,5 @@
+{
+  "failed_as_intended": true,
+  "mutation": "replace inverse-square exponent by inverse-linear",
+  "observed_log_log_slope": -1.0000000000000004
+}

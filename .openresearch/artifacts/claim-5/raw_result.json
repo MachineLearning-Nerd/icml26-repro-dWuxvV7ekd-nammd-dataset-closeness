@@ -1,0 +1,29 @@
+{
+  "missing_exact_assets": [
+    "HIGGS_TST.pckl",
+    "generated fake-MNIST arrays",
+    "generated/adversarial CIFAR-10 arrays",
+    "trained deep-kernel checkpoints"
+  ],
+  "official_code_commit": "8aca5dc1ec3804ff3754b3cbc82076f8afde9219",
+  "paper_table_2_average": {
+    "epsilon": [
+      0.1,
+      0.3,
+      0.5,
+      0.7
+    ],
+    "mmd": [
+      0.973,
+      0.928,
+      0.924,
+      0.97
+    ],
+    "nammd": [
+      0.976,
+      0.955,
+      0.951,
+      0.984
+    ]
+  }
+}

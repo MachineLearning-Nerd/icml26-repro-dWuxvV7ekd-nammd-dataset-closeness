@@ -1,0 +1,5 @@
+{
+  "failed_as_intended": true,
+  "mutation": "treat available synthetic Gaussian/blob rows as satisfying all five named datasets",
+  "reason": "The five-dataset quantifier is false under this mutation."
+}

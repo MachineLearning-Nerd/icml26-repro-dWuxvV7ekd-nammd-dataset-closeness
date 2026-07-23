@@ -1,0 +1,23 @@
+{
+  "outputs/claim_1_raw.csv": {
+    "bytes": 12956,
+    "sha256": "55a5ca0dae68916dff64f43635162e9749fb20d8448fe065a99f6b468f3fe260"
+  },
+  "outputs/claim_2_raw.json": {
+    "bytes": 1483,
+    "sha256": "4678e350de23ce395f455e469431e47549ed8f3ff085988f8b39b751ed3c4a54"
+  },
+  "outputs/claim_4_raw.csv": {
+    "bytes": 2361,
+    "sha256": "7ffbfccfbdf02ba5632f2be07b300379f5e8babbc2047fd35b736e3556f8bb00"
+  },
+  "outputs/verdict.json": {
+    "bytes": 10731,
+    "sha256": "5b24a87a9bad336d902f99991ee9174552abd0e86d601c01668fddd21199a058"
+  },
+  "outputs/verify_run.log": {
+    "bytes": 2500,
+    "sha256": "04883d9179d5ca6f3dffff4b54d515310079153ebadcf9dc78bfda0cea65ecf0"
+  },
+  "provenance": "ORX_OUTPUT_MANIFEST emitted by run 9091ac45-6f86-41e3-bfe2-45d67c8644f8"
+}

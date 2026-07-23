@@ -1,0 +1,5 @@
+{
+  "failed_as_intended": true,
+  "mutation": "reverse the required RKHS-norm ordering",
+  "power_advantage_at_m_300": -0.02324509982370815
+}

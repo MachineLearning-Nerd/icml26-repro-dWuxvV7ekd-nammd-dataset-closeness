@@ -1,0 +1,7 @@
+{
+  "gap_grid_points": 73,
+  "method": "independent scipy linear regression on a different gap grid",
+  "passed": true,
+  "r_squared": 1.0,
+  "slope": -2.0000000000000004
+}

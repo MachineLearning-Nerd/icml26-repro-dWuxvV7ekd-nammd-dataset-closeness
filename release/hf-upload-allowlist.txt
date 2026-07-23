@@ -1,0 +1,6 @@
+logbook.json
+pages/rigorous-verdicts-2026-07-23/page.md
+pages/rigorous-evidence-2026-07-23/page.md
+evidence/rigorous-2026-07-23/verdict.json
+evidence/rigorous-2026-07-23/source_manifest.json
+evidence/rigorous-2026-07-23/run_provenance.json

@@ -1,0 +1,14 @@
+{
+  "missing_exact_assets": [
+    "ImageNet and distribution-shift variant trees",
+    "ResNet-50 ImageNet feature tensors",
+    "confidence-margin split features",
+    "CIFAR-10 ResNet-18 checkpoint",
+    "paper adversarial arrays"
+  ],
+  "official_code_commit": "8aca5dc1ec3804ff3754b3cbc82076f8afde9219",
+  "source_constraints": [
+    "hard-coded local ImageNet paths",
+    "CUDA-only attack operations"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "alpha": 0.05,
+  "epsilon": 0.5423728813559324,
+  "excess_over_alpha": 0.13530201888518428,
+  "kernel": "k(x,y)=max(1-|x-y|,0)",
+  "m": 8,
+  "ordered_samples": 65536,
+  "p_bernoulli_one": 0.1,
+  "q_bernoulli_one": 0.9,
+  "rejection_probability": 0.1853020188851843,
+  "raw_json": {
+    "path_at_runtime": "outputs/claim_2_raw.json",
+    "sha256": "4678e350de23ce395f455e469431e47549ed8f3ff085988f8b39b751ed3c4a54"
+  }
+}

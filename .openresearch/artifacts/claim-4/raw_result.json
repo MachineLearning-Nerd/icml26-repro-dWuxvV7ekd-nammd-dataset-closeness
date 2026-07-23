@@ -1,0 +1,12 @@
+{
+  "alpha": 0.05,
+  "bound_constant": 81.93225913572869,
+  "failure_probability": 0.05,
+  "gap_grid_points": 41,
+  "log_log_slope": -1.9999999999999996,
+  "max_m_times_gap_squared_error": 1.4210854715202004e-14,
+  "raw_csv": {
+    "path_at_runtime": "outputs/claim_4_raw.csv",
+    "sha256": "7ffbfccfbdf02ba5632f2be07b300379f5e8babbc2047fd35b736e3556f8bb00"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "arxiv_v1_pdf": {
+    "retrieved": "2026-07-23",
+    "sha256": "ddee0e2059e694d1813c418400a4a5d0c5abc17df4246873a232df1c89377829",
+    "url": "https://arxiv.org/pdf/2507.12843v1"
+  },
+  "arxiv_v3_pdf": {
+    "retrieved": "2026-07-23",
+    "sha256": "3141cd2d2785515c50892a54ae19015b4dcb811e320893947b0a1f40183395f5",
+    "url": "https://arxiv.org/pdf/2507.12843"
+  },
+  "official_code": {
+    "sha": "8aca5dc1ec3804ff3754b3cbc82076f8afde9219",
+    "url": "https://github.com/zhijianzhouml/NAMMD"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "failed_as_intended": true,
+  "mutation": "replace z_(0.95) with z_(0.50)=0",
+  "rejection_probability": 0.5147278302366373
+}
