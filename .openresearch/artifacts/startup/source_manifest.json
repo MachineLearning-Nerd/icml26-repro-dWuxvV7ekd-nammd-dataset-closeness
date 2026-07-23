@@ -1,0 +1,57 @@
+{
+  "retrieved_utc": "2026-07-23T13:40:22Z",
+  "retrieval_user_agent": "OpenResearch-Reproduction/1.0",
+  "sources": [
+    {
+      "role": "current_primary_html",
+      "url": "https://ar5iv.labs.arxiv.org/html/2507.12843",
+      "version": "arXiv v3 (7 June 2026)",
+      "sha256": "e29a2c3eb71c795adece3875822978d35148b7840a0de23432eb0cf487e35839"
+    },
+    {
+      "role": "current_primary_pdf",
+      "url": "https://arxiv.org/pdf/2507.12843",
+      "version": "arXiv v3 (7 June 2026)",
+      "sha256": "3141cd2d2785515c50892a54ae19015b4dcb811e320893947b0a1f40183395f5"
+    },
+    {
+      "role": "legacy_judge_numbering_pdf",
+      "url": "https://arxiv.org/pdf/2507.12843v1",
+      "version": "arXiv v1 (17 July 2025)",
+      "sha256": "ddee0e2059e694d1813c418400a4a5d0c5abc17df4246873a232df1c89377829"
+    },
+    {
+      "role": "version_history",
+      "url": "https://arxiv.org/abs/2507.12843",
+      "version": "v1, v2, v3 metadata",
+      "sha256": "8636a91208514d6998108120efb37e64f2590e951c129c7d92a0c5123de0ae6e"
+    }
+  ],
+  "anchors": {
+    "claim_1": "v1 Definition 1 / v3 Definition 1, Eq. (2)",
+    "claim_2": "v1 Theorem 4 / v3 Theorem 6",
+    "claim_3": "v1 Theorem 7 / v3 Theorem 9",
+    "claim_4": "v1 Theorem 5 / v3 Theorem 7",
+    "claim_5": "v1 Table 2 / v3 Table 2",
+    "claim_6": "v1 Section 6.2 / v3 Section 5.2, Figures 3-5"
+  },
+  "official_code": {
+    "url": "https://github.com/zhijianzhouml/NAMMD",
+    "head_sha": "8aca5dc1ec3804ff3754b3cbc82076f8afde9219",
+    "note": "alphaXiv's linked repository was unrelated; the paper text names this repository."
+  },
+  "live_verdict": {
+    "dataset": "ICML-2026-agent-repro/verdicts",
+    "dataset_revision": "27380c7340e385d209ae8c303081f452d7cc5b63",
+    "dataset_sha256": "dc1d5d205155756871ece4554a69c3f65530a51c6e62417c235535016f79ee35",
+    "filter": "space_id == \"DineshAI/dWuxvV7ekd\"",
+    "match_count": 1
+  },
+  "protected_space": {
+    "space_id": "DineshAI/dWuxvV7ekd",
+    "revision": "9494ace83ec1c99632a33b773f64c82e12891405",
+    "file_count": 17,
+    "manifest_sha256": "646ca999f457f2470455f608573b7d1e38e32f1280852cbd4bc6065c1177e730"
+  }
+}
+
