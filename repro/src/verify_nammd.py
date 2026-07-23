@@ -20,6 +20,8 @@ from pathlib import Path
 import numpy as np
 from scipy.stats import norm
 
+from claim3_counterexample import independent_check as claim3_counterexample_check
+from claim3_counterexample import search as claim3_counterexample_search
 from independent_checker import independent_check
 
 
@@ -606,16 +608,24 @@ def main() -> int:
             "VERIFIED" if preliminary[key]["passed"] else "BLOCKED"
         )
 
-    # Claim 3's source proof contains a false numerical inequality. This is a
-    # proof gap, not a theorem counterexample, so never over-label it FALSIFIED.
+    # Claim 3: seek an actual admissible distributional counterexample to the
+    # proof's false numerical inequality.
     c3["independent_checker"] = independent["claim_3"]
-    c3["passed"] = False
-    c3["verdict"] = "BLOCKED"
+    counterexample = claim3_counterexample_search()
+    counterexample_independent = claim3_counterexample_check(counterexample)
+    c3["counterexample_search"] = counterexample
+    c3["counterexample_independent_checker"] = counterexample_independent
+    c3_falsified = bool(
+        counterexample.get("found") and counterexample_independent.get("passed")
+    )
+    c3["passed"] = c3_falsified
+    c3["verdict"] = "FALSIFIED" if c3_falsified else "BLOCKED"
     c3["reason"] = (
-        "The published step Phi(0.75)-Phi(0.70) >= 1/65 is false. "
-        "The Gaussian example itself satisfies the claimed margin, but no "
-        "admissible distributional counterexample to the quantified theorem "
-        "has been constructed; a proof gap alone is not a falsification."
+        "An admissible centered-Gaussian counterexample violates the theorem's "
+        "1/65 power-margin conclusion."
+        if c3_falsified
+        else "The published proof step is false, but this search did not find "
+        "an independently confirmed admissible theorem counterexample."
     )
 
     blocked = blocked_claims()
@@ -683,7 +693,10 @@ def main() -> int:
         result.get("negative_control", {}).get("failed_as_intended", True)
         for result in verified
     )
-    falsified_ok = c2["verdict"] == "FALSIFIED" and c2["passed"]
+    falsified_ok = all(
+        result["verdict"] == "FALSIFIED" and result["passed"]
+        for result in (c2, c3)
+    )
     return 0 if verified_ok and controls_ok and falsified_ok else 1
 
 

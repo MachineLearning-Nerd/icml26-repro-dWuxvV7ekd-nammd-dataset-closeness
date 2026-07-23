@@ -1,0 +1,10 @@
+{
+  "claim_id": 3,
+  "source": "arXiv:2507.12843v1 Theorem 7 and Appendix D.4; v3 Theorem 9 and Appendix C.6",
+  "target": "For C1<=m<=C2, the asymptotic NAMMD-only power advantage is at least 1/65.",
+  "candidate_family": "Centered one-dimensional Gaussians with k(x,y)=exp(-(x-y)^2)",
+  "required_assumptions": ["both MMD and NAMMD alternatives", "same kernel", "strict embedding-norm ordering", "integer m in C1/C2", "Delta in (0,1/2)"],
+  "acceptance": "FALSIFIED only if the advantage is below 1/65, every theorem assumption is true, and independent numerical integration reproduces sigma_M^2 and the violation.",
+  "verifier": "repro/src/claim3_counterexample.py",
+  "seed": 250712843
+}
