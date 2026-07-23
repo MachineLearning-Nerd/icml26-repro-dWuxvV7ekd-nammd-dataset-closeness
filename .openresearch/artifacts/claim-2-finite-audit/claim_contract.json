@@ -1,0 +1,11 @@
+{
+  "claim_id": 2,
+  "source": "arXiv:2507.12843v1 Theorem 4; v3 Theorem 6",
+  "target": "The unqualified finite-sample v1 type-I bound",
+  "null": "NAMMD(P,Q;k)=epsilon with epsilon in (0,1)",
+  "test": "The paper's U-statistic ratio, plug-in variance estimator, Gaussian threshold, alpha=0.05",
+  "domain": "Bernoulli P,Q on {0,1}; triangular k(x,y)=max(1-|x-y|,0)",
+  "acceptance": "FALSIFIED only if exact ordered-sample enumeration exceeds alpha and an independent brute-force enumeration agrees to 1e-12.",
+  "verifier": "repro/src/verify_nammd.py",
+  "negative_control": "Replacing z_0.95 with z_0.50 must increase rejection mass."
+}

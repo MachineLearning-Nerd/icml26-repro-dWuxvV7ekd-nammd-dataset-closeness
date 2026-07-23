@@ -1,132 +1,341 @@
-"""Verify claims of "Are Two Datasets Close Enough With Statistical Significance?" (arXiv 2507.12843).
-Clean-room numpy, CPU. NAMMD definition/bounded (c1), type-I error<=alpha (c2), NAMMD>=MMD rejection (c3),
-sample complexity 1/(NAMMD-eps)^2 (c4), power (c5), shift detection (c6)."""
+"""Exact finite-sample stress audit of arXiv:2507.12843v1 Theorem 4.
+
+The paper's v1 display states finite type-I control, while its proof and v3
+replacement are explicitly asymptotic.  This program enumerates every ordered
+sample for Bernoulli distributions and a triangular kernel, using the paper's
+published plug-in variance formula and decision threshold.
+"""
 from __future__ import annotations
-import json, os, sys
+
+import hashlib
+import json
+import math
+import os
+import platform
+import subprocess
+import time
+from itertools import product
+from pathlib import Path
+
 import numpy as np
-sys.path.insert(0, os.path.dirname(__file__))
-import nammd as N
-
-OUT = os.path.join(os.path.dirname(__file__), "..", "..", "outputs")
-os.makedirs(OUT, exist_ok=True)
-results = {}
-def banner(s): print("\n" + "=" * 78 + f"\n{s}\n" + "=" * 78)
-
-SIG = 1.0
+from scipy.stats import norm
 
 
-def sample(dist, m, seed):
-    rng = np.random.default_rng(seed)
-    mu, cov = dist
-    return rng.multivariate_normal(mu, cov, m)
+ROOT = Path(__file__).resolve().parents[2]
+OUT = ROOT / "outputs"
+COMMAND = "uv run --frozen python repro/src/verify_nammd.py"
+ALPHA = 0.05
+Z = float(norm.ppf(1.0 - ALPHA))
+SOURCE_V1 = "ddee0e2059e694d1813c418400a4a5d0c5abc17df4246873a232df1c89377829"
+SOURCE_V3 = "3141cd2d2785515c50892a54ae19015b4dcb811e320893947b0a1f40183395f5"
 
 
-# ---------------------------------------------------------------- Claim 1: NAMMD in [0,1], increasing with difference
-banner("CLAIM 1 (Definition 1): NAMMD in [0,1], increases as distributions diverge")
-base = (np.zeros(2), np.eye(2))
-vals = []
-for shift in [0.0, 0.3, 0.6, 1.0, 1.5]:
-    X = sample(base, 400, seed=1); Q = sample((np.array([shift, 0.0]), np.eye(2)), 400, seed=2)
-    v = N.nammd_hat(X, Q, sigma=SIG)
-    vals.append(v)
-bounded = all(0 - 1e-6 <= v <= 1 + 1e-6 for v in vals)
-increasing = all(vals[i] <= vals[i+1] + 1e-6 for i in range(len(vals)-1))
-c1 = bounded and increasing
-print(f"  NAMMD vs shift {0,0.3,0.6,1.0,1.5}: {[round(v,3) for v in vals]}; bounded & increasing -> {'PASS' if c1 else 'FAIL'}")
-results["c1_definition"] = dict(passed=bool(c1), nammd_vs_shift=[float(v) for v in vals])
+def git_sha() -> str:
+    return subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
 
 
-# ---------------------------------------------------------------- Claim 2: type-I error <= alpha (under H0: NAMMD <= eps)
-banner("CLAIM 2 (Theorem 4): type-I error <= alpha under the null NAMMD <= eps")
-alpha = 0.05; eps = 0.15
-# null pairs: same/close distributions -> NAMMD small (<=eps)
-rejects = 0; T = 60
-for s in range(T):
-    X = sample(base, 60, seed=100+s); Y = sample(base, 60, seed=200+s)   # same dist => NAMMD ~0 <= eps
-    rej, _ = N.nammd_test(X, Y, eps, alpha=alpha, sigma=SIG, n_perm=60, seed=s)
-    rejects += int(rej)
-type1 = rejects / T
-c2 = type1 <= alpha + 0.06       # empirical type-I <= alpha (permutation, +sampling tol)
-print(f"  empirical type-I error = {type1:.3f} (alpha={alpha}) under H0 (same dist, eps={eps}) -> {'PASS' if c2 else 'FAIL'}")
-results["c2_type1"] = dict(passed=bool(c2), type1=float(type1), alpha=float(alpha))
+def sha256(path: Path) -> str:
+    h = hashlib.sha256()
+    h.update(path.read_bytes())
+    return h.hexdigest()
 
 
-# ---------------------------------------------------------------- Claim 3: NAMMD rejects whenever MMD rejects (Theorem 7)
-banner("CLAIM 3 (Theorem 7): when MMD-DCT rejects, NAMMD-DCT also rejects (with high prob)")
-def mmd_test(X, Y, alpha, sigma, n_perm, seed):
-    # permutation MMD test (same machinery, statistic = MMD^2)
-    rng = np.random.default_rng(seed)
-    obs = N.mmd2_hat(X, Y, sigma)
-    pool = np.vstack([X, Y]); n = len(X); ge = 0
-    for _ in range(n_perm):
-        perm = rng.permutation(len(pool))
-        ge += int(N.mmd2_hat(pool[perm[:n]], pool[perm[n:]], sigma) >= obs)
-    return (ge + 1) / (n_perm + 1) <= alpha
-eps = 0.1; both_rej = nammd_only = mmd_only = 0; TT = 40
-for s in range(TT):
-    X = sample(base, 80, seed=300+s)
-    Y = sample((np.array([0.5, 0.0]), np.eye(2)), 80, seed=400+s)   # moderate shift (alternative)
-    r_mmd = mmd_test(X, Y, 0.05, SIG, 100, s)
-    r_nammd, _ = N.nammd_test(X, Y, eps, 0.05, SIG, 100, s+1)
-    if r_mmd and r_nammd: both_rej += 1
-    if r_mmd and not r_nammd: mmd_only += 1     # MMD rejects but NAMMD doesn't (should be rare)
-    if r_nammd and not r_mmd: nammd_only += 1
-c3 = mmd_only <= 0.25 * (both_rej + mmd_only)   # NAMMD misses very few of MMD's rejections
-print(f"  both reject={both_rej}, MMD-only={mmd_only}, NAMMD-only={nammd_only} (MMD-only should be rare) -> {'PASS' if c3 else 'FAIL'}")
-results["c3_thm7"] = dict(passed=bool(c3), both=int(both_rej), mmd_only=int(mmd_only), nammd_only=int(nammd_only))
+def paper_statistic_and_se(x: np.ndarray, y: np.ndarray) -> tuple[float, float, float]:
+    """Port of official DCT_exp/power_epsn/utils.py at upstream SHA 8aca5dc.
+
+    For support {0,1}, k(x,y)=max(1-|x-y|,0) equals the equality matrix.
+    This triangular kernel is nonnegative, bounded, shift-invariant and PD.
+    """
+    m = len(x)
+    kx = (x[:, None] == x[None, :]).astype(float)
+    ky = (y[:, None] == y[None, :]).astype(float)
+    kxy = (x[:, None] == y[None, :]).astype(float)
+    eye = np.eye(m)
+    ones = np.ones(m)
+    kx0, ky0 = kx * (1.0 - eye), ky * (1.0 - eye)
+    xx = kx0.sum() / (m * (m - 1))
+    yy = ky0.sum() / (m * (m - 1))
+    xy = (kxy.sum() - np.trace(kxy)) / (m * (m - 1))
+    mmd2 = xx - 2.0 * xy + yy
+    denominator = 4.0 - xx - yy
+    nammd = mmd2 / denominator
+
+    xxi1 = (
+        (np.linalg.norm(kx0 @ ones) ** 2 - np.linalg.norm(kx0, "fro") ** 2)
+        / (m * (m - 1) * (m - 2))
+        - (
+            (ones @ kx0 @ ones) ** 2
+            - 4.0
+            * (
+                np.linalg.norm(kx0 @ ones) ** 2
+                + 2.0 * np.linalg.norm(kx0, "fro") ** 2
+            )
+        )
+        / (m * (m - 1) * (m - 2) * (m - 3))
+    )
+    yxi1 = (
+        (np.linalg.norm(ky0 @ ones) ** 2 - np.linalg.norm(ky0, "fro") ** 2)
+        / (m * (m - 1) * (m - 2))
+        - (
+            (ones @ ky0 @ ones) ** 2
+            - 4.0
+            * (
+                np.linalg.norm(ky0 @ ones) ** 2
+                + 2.0 * np.linalg.norm(ky0, "fro") ** 2
+            )
+        )
+        / (m * (m - 1) * (m - 2) * (m - 3))
+    )
+    cross_correction = (
+        (ones @ kxy @ ones) ** 2
+        - np.linalg.norm(kxy.T @ ones) ** 2
+        - np.linalg.norm(kxy @ ones) ** 2
+        + np.linalg.norm(kxy, "fro") ** 2
+    )
+    varxi1 = (
+        xxi1
+        + yxi1
+        + (np.linalg.norm(kxy @ ones) ** 2 - np.linalg.norm(kxy, "fro") ** 2)
+        / (m**2 * (m - 1))
+        - 2.0 * cross_correction / (m**2 * (m - 1) ** 2)
+        + (np.linalg.norm(kxy.T @ ones) ** 2 - np.linalg.norm(kxy, "fro") ** 2)
+        / (m**2 * (m - 1))
+        - 2.0 * (ones @ kx0 @ kxy @ ones) / (m**2 * (m - 1))
+        + 2.0
+        * (
+            (ones @ kx0 @ ones) * (ones @ kxy @ ones)
+            - 2.0 * (ones @ kx0 @ kxy @ ones)
+        )
+        / (m**2 * (m - 1) * (m - 2))
+        - 2.0 * (ones @ ky0 @ kxy.T @ ones) / (m**2 * (m - 1))
+        + 2.0
+        * (
+            (ones @ ky0 @ ones) * (ones @ kxy.T @ ones)
+            - 2.0 * (ones @ ky0 @ kxy.T @ ones)
+        )
+        / (m**2 * (m - 1) * (m - 2))
+    )
+    varxi2 = (
+        xxi1
+        + yxi1
+        + 2.0 * np.linalg.norm(kxy, "fro") ** 2 / m**2
+        - 2.0 * cross_correction / (m**2 * (m - 1) ** 2)
+        - 4.0 * (ones @ kx0 @ kxy @ ones) / (m**2 * (m - 1))
+        + 4.0
+        * (
+            (ones @ kx0 @ ones) * (ones @ kxy @ ones)
+            - 2.0 * (ones @ kx0 @ kxy @ ones)
+        )
+        / (m**2 * (m - 1) * (m - 2))
+        - 4.0 * (ones @ ky0 @ kxy.T @ ones) / (m**2 * (m - 1))
+        + 4.0
+        * (
+            (ones @ ky0 @ ones) * (ones @ kxy.T @ ones)
+            - 2.0 * (ones @ ky0 @ kxy.T @ ones)
+        )
+        / (m**2 * (m - 1) * (m - 2))
+    )
+    variance_mmd = (
+        4.0 * (m - 2) * varxi1 / (m * (m - 1))
+        + 2.0 * varxi2 / (m * (m - 1))
+    )
+    variance_nammd = variance_mmd / denominator**2
+    standard_error = math.sqrt(variance_nammd) if variance_nammd > 0.0 else math.nan
+    return nammd, standard_error, variance_nammd
 
 
-# ---------------------------------------------------------------- Claim 4: sample complexity ~ 1/(NAMMD-eps)^2
-banner("CLAIM 4 (Theorem 5): sample complexity ~ 1/(NAMMD-eps)^2")
-# vary eps; required m to reach fixed power should grow as 1/(NAMMD-eps)^2
-def power_at(eps, m, reps=15):
-    rej = 0
-    for s in range(reps):
-        X = sample(base, m, seed=500+s); Y = sample((np.array([0.6,0.0]), np.eye(2)), m, seed=600+s)
-        r,_ = N.nammd_test(X, Y, eps, 0.05, SIG, 80, s); rej += int(r)
-    return rej/reps
-# larger eps (closer to NAMMD) => harder => need more samples; verify power decreases as eps -> NAMMD
-pows = [power_at(eps, 120) for eps in [0.05, 0.1, 0.15]]
-c4 = pows[0] >= pows[1] >= pows[2] - 0.05      # larger eps (harder margin) => lower power (more samples needed)
-print(f"  power vs eps {[0.05,0.1,0.15]} at m=120: {[round(p,3) for p in pows]} (decreasing => sample complexity ~1/(NAMMD-eps)^2) -> {'PASS' if c4 else 'FAIL'}")
-results["c4_sample_complexity"] = dict(passed=bool(c4), powers=[float(p) for p in pows])
+def population_nammd(p: float, q: float) -> float:
+    a = p * p + (1.0 - p) ** 2
+    b = q * q + (1.0 - q) ** 2
+    c = p * q + (1.0 - p) * (1.0 - q)
+    return (a + b - 2.0 * c) / (4.0 - a - b)
 
 
-# ---------------------------------------------------------------- Claim 5: NAMMD average power >= MMD (advantage on high-RKHS-norm pairs)
-banner("CLAIM 5: NAMMD-DCT average power >= MMD-DCT (advantage on high-norm/tight pairs, Fig 1)")
-# Average over a mix of settings; NAMMD's norm-adaptivity gives it the edge for tight (high-norm) alternatives.
-settings = [((0.4,0.0),0.5), ((0.5,0.0),0.6)]  # (shift, scale)
-TT = 15; pN_tot = pM_tot = 0; n = 0
-for (sh, sc), base_sc in [(s, 1.0) for s in settings]:
-    P = (np.zeros(2), base_sc**2 * np.eye(2)); Q = (np.array(sh), sc**2*np.eye(2))
-    for s in range(TT):
-        X = sample(P, 70, seed=700+n); Y = sample(Q, 70, seed=900+n)
-        if N.nammd_test(X, Y, 0.05, 0.05, SIG, 80, s)[0]: pN_tot += 1
-        if mmd_test(X, Y, 0.05, SIG, 80, s+5): pM_tot += 1
-        n += 1
-c5 = pN_tot >= pM_tot - 1
-print(f"  avg NAMMD power={pN_tot/n:.3f} >= avg MMD power={pM_tot/n:.3f} across {len(settings)} settings -> {'PASS' if c5 else 'FAIL'}")
-results["c5_power"] = dict(passed=bool(c5), nammd_power=float(pN_tot/n), mmd_power=float(pM_tot/n), n_settings=len(settings))
+def multiplicity(m: int, kx: int, ky: int, both_one: int) -> int:
+    cells = (
+        both_one,
+        kx - both_one,
+        ky - both_one,
+        m - kx - ky + both_one,
+    )
+    value = math.factorial(m)
+    for cell in cells:
+        value //= math.factorial(cell)
+    return value
 
 
-# ---------------------------------------------------------------- Claim 6: shift detection without labels (synthetic proxy)
-banner("CLAIM 6: NAMMD detects distribution shift (synthetic; paper: ImageNet variants etc.)")
-# training vs shifted-test (covariate shift); NAMMD flags it
-Xtr = sample(base, 100, seed=1); Xte_same = sample(base, 100, seed=2); Xte_shift = sample((np.array([0.8,0.0]), np.eye(2)), 100, seed=3)
-r_same,_ = N.nammd_test(Xtr, Xte_same, 0.1, 0.05, SIG, 100, 1)
-r_shift,_ = N.nammd_test(Xtr, Xte_shift, 0.1, 0.05, SIG, 100, 2)
-c6 = (not r_same) and r_shift      # no alarm on same, alarm on shift
-print(f"  same-data reject={r_same} (should be False), shifted reject={r_shift} (should be True) -> {'PASS' if c6 else 'FAIL'}")
-print("  (Paper: ImageNet shift / confidence-margin / adversarial cases; we verify shift detection on synthetic Gaussians.)")
-results["c6_shift_detection"] = dict(passed=bool(c6), reject_same=bool(r_same), reject_shift=bool(r_shift),
-    note="NAMMD-based closeness test detects covariate shift on synthetic Gaussians (paper: ImageNet variants / confidence-margin / adversarial).")
+def sufficient_states(m: int) -> list[dict]:
+    states = []
+    for kx in range(m + 1):
+        for ky in range(m + 1):
+            for both in range(max(0, kx + ky - m), min(kx, ky) + 1):
+                x = np.array([1] * both + [1] * (kx - both) + [0] * (ky - both) + [0] * (m - kx - ky + both))
+                y = np.array([1] * both + [0] * (kx - both) + [1] * (ky - both) + [0] * (m - kx - ky + both))
+                statistic, se, variance = paper_statistic_and_se(x, y)
+                states.append(
+                    {
+                        "kx": kx,
+                        "ky": ky,
+                        "both_one": both,
+                        "multiplicity": multiplicity(m, kx, ky, both),
+                        "statistic": statistic,
+                        "standard_error": se,
+                        "variance": variance,
+                    }
+                )
+    assert sum(state["multiplicity"] for state in states) == 2 ** (2 * m)
+    return states
 
 
-# ---------------------------------------------------------------- summary
-banner("VERDICT SUMMARY")
-passed = sum(1 for r in results.values() if r.get("passed"))
-for k_, r in results.items():
-    print(f"  [{'PASS' if r.get('passed') else 'FAIL'}] {k_}")
-print(f"\n  {passed}/{len(results)} claims verified.")
-json.dump(results, open(os.path.join(OUT, "verdict.json"), "w"), indent=2)
-print("  wrote outputs/verdict.json")
+def rejection_probability(states: list[dict], m: int, p: float, q: float, z: float) -> float:
+    epsilon = population_nammd(p, q)
+    total = 0.0
+    for state in states:
+        se = state["standard_error"]
+        reject = math.isfinite(se) and state["statistic"] > epsilon + z * se
+        if reject:
+            kx, ky = state["kx"], state["ky"]
+            weight = (
+                p**kx
+                * (1.0 - p) ** (m - kx)
+                * q**ky
+                * (1.0 - q) ** (m - ky)
+            )
+            total += state["multiplicity"] * weight
+    return total
+
+
+def brute_force_probability(m: int, p: float, q: float, z: float) -> float:
+    epsilon = population_nammd(p, q)
+    total = 0.0
+    for x_tuple in product((0, 1), repeat=m):
+        x = np.asarray(x_tuple)
+        kx = int(x.sum())
+        px = p**kx * (1.0 - p) ** (m - kx)
+        for y_tuple in product((0, 1), repeat=m):
+            y = np.asarray(y_tuple)
+            ky = int(y.sum())
+            statistic, se, _ = paper_statistic_and_se(x, y)
+            if math.isfinite(se) and statistic > epsilon + z * se:
+                total += px * q**ky * (1.0 - q) ** (m - ky)
+    return total
+
+
+def main() -> int:
+    started = time.perf_counter()
+    OUT.mkdir(exist_ok=True)
+    grid = [i / 20.0 for i in range(1, 20)]
+    per_m = []
+    global_best = {"probability": -1.0}
+    cached_states = {}
+    for m in range(4, 9):
+        states = sufficient_states(m)
+        cached_states[m] = states
+        best = {"probability": -1.0}
+        for p in grid:
+            for q in grid:
+                if p == q:
+                    continue
+                epsilon = population_nammd(p, q)
+                if not 0.0 < epsilon < 1.0:
+                    continue
+                probability = rejection_probability(states, m, p, q, Z)
+                candidate = {
+                    "m": m,
+                    "p": p,
+                    "q": q,
+                    "epsilon": epsilon,
+                    "probability": probability,
+                    "excess_over_alpha": probability - ALPHA,
+                    "state_classes": len(states),
+                    "ordered_samples": 2 ** (2 * m),
+                }
+                if probability > best["probability"]:
+                    best = candidate
+                if probability > global_best["probability"]:
+                    global_best = candidate
+        per_m.append(best)
+
+    brute_probability = brute_force_probability(
+        global_best["m"], global_best["p"], global_best["q"], Z
+    )
+    independent_error = abs(brute_probability - global_best["probability"])
+    mutated_probability = rejection_probability(
+        cached_states[global_best["m"]],
+        global_best["m"],
+        global_best["p"],
+        global_best["q"],
+        0.0,
+    )
+    counterexample = global_best["probability"] > ALPHA + 1e-12
+    independent_passed = independent_error < 1e-12
+    control_failed_as_intended = mutated_probability > global_best["probability"]
+
+    claim = {
+        "verdict": "FALSIFIED" if counterexample and independent_passed else "BLOCKED",
+        "passed": bool(counterexample and independent_passed and control_failed_as_intended),
+        "scope": "finite, unqualified v1 Theorem 4 statement",
+        "counterexample": global_best,
+        "independent_checker": {
+            "method": "brute force over all ordered binary x/y sequences",
+            "probability": brute_probability,
+            "absolute_error": independent_error,
+            "passed": independent_passed,
+        },
+        "negative_control": {
+            "mutation": "replace z_(0.95) by z_(0.50)=0",
+            "probability": mutated_probability,
+            "failed_as_intended": control_failed_as_intended,
+        },
+        "asymptotic_v3": {
+            "verdict": "BLOCKED",
+            "reason": "A finite counterexample does not contradict the corrected asymptotic theorem.",
+        },
+        "kernel": {
+            "formula": "k(x,y)=max(1-|x-y|,0)",
+            "support": [0, 1],
+            "properties": ["bounded by K=1", "nonnegative", "shift-invariant", "positive definite"],
+        },
+        "search": {
+            "p_q_grid": grid,
+            "sample_sizes": [4, 5, 6, 7, 8],
+            "max_per_m": per_m,
+            "exact_not_monte_carlo": True,
+        },
+    }
+    evidence = {
+        "paper": "arXiv:2507.12843",
+        "source_sha256": {"v1": SOURCE_V1, "v3": SOURCE_V3},
+        "official_code_sha": "8aca5dc1ec3804ff3754b3cbc82076f8afde9219",
+        "command": COMMAND,
+        "git_sha": git_sha(),
+        "environment": {
+            "python": platform.python_version(),
+            "numpy": np.__version__,
+            "machine": platform.machine(),
+            "cpu_count": os.cpu_count(),
+        },
+        "runtime_seconds": time.perf_counter() - started,
+        "claim_2": claim,
+    }
+    verdict_path = OUT / "verdict.json"
+    verdict_path.write_text(json.dumps(evidence, indent=2, sort_keys=True) + "\n")
+    manifest = {
+        "outputs/verdict.json": {
+            "sha256": sha256(verdict_path),
+            "bytes": verdict_path.stat().st_size,
+        }
+    }
+    print("CLAIM 2 EXACT FINITE-SAMPLE AUDIT")
+    print(f"command={COMMAND}")
+    print(f"git_sha={evidence['git_sha']}")
+    print(f"verdict={claim['verdict']}")
+    print(f"best={json.dumps(global_best, sort_keys=True)}")
+    print(f"independent_probability={brute_probability:.17g}")
+    print("ORX_EVIDENCE_JSON=" + json.dumps(evidence, sort_keys=True))
+    print("ORX_OUTPUT_MANIFEST=" + json.dumps(manifest, sort_keys=True))
+    return 0 if claim["passed"] else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
