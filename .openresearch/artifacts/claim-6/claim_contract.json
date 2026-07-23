@@ -1,0 +1,7 @@
+{
+  "claim_id": 6,
+  "source": "arXiv:2507.12843v3 Section 5.2, Figures 3-5",
+  "statement": "NAMMD is applied without ground-truth labels in all three case studies: ImageNet-variant distribution-shift classification, confidence-margin detection, and CIFAR-10 adversarial perturbation quantification.",
+  "acceptance": "All three named applications must be reproduced with their stated feature extractors, sample sizes, references, and uncertainty. A generic shift proxy is insufficient.",
+  "verifier": "repro/src/verify_nammd.py::blocked_claims"
+}

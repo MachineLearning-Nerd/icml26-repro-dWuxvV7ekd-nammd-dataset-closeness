@@ -1,0 +1,10 @@
+{
+  "claim_id": 4,
+  "source": "arXiv:2507.12843v1 Theorem 5; v3 Theorem 7",
+  "statement": "A sufficient sample size for rejection probability at least 1-v is m >= C(alpha,v)/(NAMMD(P,Q;k)-epsilon)^2.",
+  "assumptions": ["NAMMD(P,Q;k)>epsilon", "epsilon in (0,1)", "bounded kernel assumptions inherited from the test"],
+  "verifier": "repro/src/verify_nammd.py::claim_4",
+  "independent_checker": "repro/src/independent_checker.py::_claim_4",
+  "acceptance": "Across a positive gap sweep, m*gap^2 is invariant and the log-log slope is -2; an inverse-linear mutation must fail.",
+  "important_scope": "This is a sufficient upper bound and main scaling term, not an asserted empirical equality for minimum sample size."
+}
