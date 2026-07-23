@@ -138,6 +138,7 @@ Frozen judged baseline 5/12
     └── Cumulative rigorous theorem suite
         └── Claim 3 admissible Gaussian counterexample search  ← winner
             └── Additive release candidate and visual report
+                └── Seal release provenance after passing regression
 ```
 
 The first analytic attempt also exposed the Claim 3 proof inequality, but its
@@ -155,6 +156,7 @@ after a one-line normalisation succeeded.
 | exact type-I audit | `orx/finite-type-i-exact-stress-audit` | `19f47f90-461d-46e8-9c31-812c137fa23e` | `8030320efa5f80de6dfb396598d248dd4274a37a` | 1m42s |
 | cumulative theorem suite | `orx/cumulative-rigorous-theorem-suite` | `208b7604-fd45-49d9-bea4-3be4be520472` | `aaa5dbc2676684b75db66da47569537abdb463a7` | 1m00s |
 | Claim 3 counterexample | `orx/claim-3-admissible-gaussian-counterexample-searc` | `9091ac45-6f86-41e3-bfe2-45d67c8644f8` | `ee9464863e499c350da0140321a99f6fc77a245d` | 1m40s |
+| release regression | `orx/additive-release-candidate-and-visual-report` | `cc08ef43-6a98-4bf7-8884-37e6166b45ce` | `6c13dd24f0c73f26f44bd961e94d6f75c542ba5a` | 1m55s |
 
 The exact judged Hugging Face revision
 `9494ace83ec1c99632a33b773f64c82e12891405` was downloaded and hashed before

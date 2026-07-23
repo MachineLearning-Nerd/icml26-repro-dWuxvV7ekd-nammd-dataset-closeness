@@ -15,11 +15,11 @@
     "venv": ".venv"
   },
   "evidence_run": {
-    "branch": "orx/claim-3-admissible-gaussian-counterexample-searc",
-    "commit": "ee9464863e499c350da0140321a99f6fc77a245d",
-    "run_id": "9091ac45-6f86-41e3-bfe2-45d67c8644f8",
-    "runtime_seconds_in_verifier": 11.575814542000003,
-    "wall_runtime": "1m40s"
+    "branch": "orx/additive-release-candidate-and-visual-report",
+    "commit": "6c13dd24f0c73f26f44bd961e94d6f75c542ba5a",
+    "run_id": "cc08ef43-6a98-4bf7-8884-37e6166b45ce",
+    "runtime_seconds_in_verifier": 16.862089417000007,
+    "wall_runtime": "1m55s"
   },
   "seeds": [
     12843,

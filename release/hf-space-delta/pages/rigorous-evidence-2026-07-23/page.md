@@ -11,11 +11,11 @@ and committed `pyproject.toml` plus `uv.lock`.
 
 ## Strongest formal run
 
-- Branch: `orx/claim-3-admissible-gaussian-counterexample-searc`
-- Git SHA: `ee9464863e499c350da0140321a99f6fc77a245d`
-- OpenResearch run: `9091ac45-6f86-41e3-bfe2-45d67c8644f8`
-- Verifier runtime: `11.575814542` seconds
-- End-to-end local wall time: `1m40s`
+- Branch: `orx/additive-release-candidate-and-visual-report`
+- Git SHA: `6c13dd24f0c73f26f44bd961e94d6f75c542ba5a`
+- OpenResearch run: `cc08ef43-6a98-4bf7-8884-37e6166b45ce`
+- Verifier runtime: `16.862089417` seconds
+- End-to-end local wall time: `1m55s`
 - Seeds: `12843`, `250712843`
 - Cost: `$0`
 
