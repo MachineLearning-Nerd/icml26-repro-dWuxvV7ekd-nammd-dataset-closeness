@@ -1,0 +1,9 @@
+{
+  "claim_id": 3,
+  "source": "arXiv:2507.12843v1 Theorem 7 and Appendix C.3/D.4; v3 Theorem 9 and Appendix C.6",
+  "statement": "Under both reference-pair alternatives, the same kernel, and the strict squared-embedding-norm ordering, MMD rejection implies NAMMD rejection with the displayed probability lower bound. For C1<=m<=C2 the asymptotic NAMMD-only power advantage is at least 1/65.",
+  "assumptions": ["both alternatives hold", "same kernel", "reference norm sum < test norm sum", "asymptotic normal thresholds", "C1<=m<=C2 for the second part"],
+  "verifier": "repro/src/verify_nammd.py::claim_3",
+  "independent_checker": "repro/src/independent_checker.py::_claim_3",
+  "acceptance": "Every premise and bound in the paper's Gaussian Example 2 is recomputed; the minimum power advantage on the full integer window is >=1/65; reversing the norm ordering destroys the advantage."
+}

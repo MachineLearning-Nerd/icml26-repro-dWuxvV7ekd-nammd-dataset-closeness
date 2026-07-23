@@ -1,0 +1,10 @@
+{
+  "claim_id": 2,
+  "source": "arXiv:2507.12843v1 Theorem 4; v3 Theorem 6",
+  "statement_v1": "Under H0: NAMMD(P,Q;k)<=epsilon in (0,1), type-I error is bounded by alpha.",
+  "statement_v3": "The type-I error is asymptotically bounded by alpha.",
+  "quantifier_issue": "The v1 displayed theorem is finite and unqualified, while its proof and v3 theorem are asymptotic.",
+  "verifier": "Round-1 sibling exact finite-sample audit",
+  "acceptance": "VERIFIED requires a proof matching the selected quantifier. FALSIFIED requires an exact boundary-null counterexample satisfying all source assumptions. A small Monte Carlo estimate is insufficient.",
+  "seed": [12843, 250712843]
+}

@@ -1,0 +1,10 @@
+{
+  "claim_id": 1,
+  "source": "arXiv:2507.12843v1 Definition 1; v3 Definition 1, Eq. (2)",
+  "statement": "For a bounded nonnegative shift-invariant positive-definite kernel k(x,y)=Psi(x-y), Psi(0)=K>0, NAMMD=MMD^2/(4K-||mu_P||^2-||mu_Q||^2) lies in [0,1]. At fixed MMD^2 it is nondecreasing in the sum of the squared embedding norms, and its separated concentrated limit is one.",
+  "assumptions": ["P and Q are probability measures", "0 <= k(x,y) <= K", "k is positive definite", "k(x,x)=K"],
+  "verifier": "repro/src/verify_nammd.py::claim_1",
+  "independent_checker": "repro/src/independent_checker.py::_claim_1",
+  "acceptance": "All analytic inequalities hold, all numerical cases lie in [0,1], the exact rational checker reaches both endpoints, and the mutated denominator fails.",
+  "seed": [12843, 250712843]
+}

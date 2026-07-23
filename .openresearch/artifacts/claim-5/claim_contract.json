@@ -1,0 +1,8 @@
+{
+  "claim_id": 5,
+  "source": "arXiv:2507.12843v3 Table 2 and Section 6.1",
+  "statement": "Across blob, HIGGS, HDGM, MNIST, and CIFAR-10, NAMMD has higher average DCT power than MMD at the reported epsilon values.",
+  "paper_average": {"epsilon": [0.1, 0.3, 0.5, 0.7], "mmd": [0.973, 0.928, 0.924, 0.970], "nammd": [0.976, 0.955, 0.951, 0.984]},
+  "acceptance": "All five named dataset rows, construction procedure, repetitions, uncertainty, and same comparison protocol must run. Missing rows imply BLOCKED.",
+  "verifier": "repro/src/verify_nammd.py::blocked_claims"
+}
