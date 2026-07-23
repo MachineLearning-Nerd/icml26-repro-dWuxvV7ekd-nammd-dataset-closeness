@@ -81,7 +81,10 @@ def _claim_4(main: dict) -> dict:
     sizes = main["constant"] / np.square(gaps)
     regression = linregress(np.log(gaps), np.log(sizes))
     return {
-        "passed": abs(regression.slope + 2.0) < 1e-12 and regression.rvalue**2 > 1 - 1e-14,
+        "passed": bool(
+            abs(regression.slope + 2.0) < 1e-12
+            and regression.rvalue**2 > 1 - 1e-14
+        ),
         "method": "independent scipy linear regression on a different 73-point gap grid",
         "slope": float(regression.slope),
         "r_squared": float(regression.rvalue**2),
