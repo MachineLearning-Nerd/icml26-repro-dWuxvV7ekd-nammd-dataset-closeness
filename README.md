@@ -1,4 +1,4 @@
-# NAMMD claim-by-claim reproduction candidate
+# NAMMD claim-by-claim reproduction
 
 This repository contains a CPU-only reproduction of
 [Are Two Datasets Close Enough With Statistical Significance?](https://arxiv.org/abs/2507.12843).
@@ -23,7 +23,12 @@ All runs used the local Apple M2 CPU, one locked repository `.venv`, and cost
 
 [Read the illustrated report](reports/nammd-claim-reproduction-2026-07-23/report.md) ·
 [Open the tutorial notebook](notebooks/nammd_claims.py) ·
+[Open the published evidence logbook](https://huggingface.co/spaces/DineshAI/dWuxvV7ekd) ·
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/MachineLearning-Nerd/icml26-repro-dWuxvV7ekd-nammd-dataset-closeness/blob/master/notebooks/nammd_claims.py)
+
+The approved text-only Space release is revision
+`294de81ec29008fb5b357e55393102447be5cf69`. The live judge has not evaluated
+that revision, so the recorded score remains `5/12` and no increase is claimed.
 
 ## Experiment log
 
@@ -37,7 +42,7 @@ The run command below is copied verbatim from every `orx exp status`.
 | [`orx/claim-3-admissible-gaussian-counterexample-searc`](https://github.com/MachineLearning-Nerd/icml26-repro-dWuxvV7ekd-nammd-dataset-closeness/tree/orx/claim-3-admissible-gaussian-counterexample-searc) | Construct and independently check Claim 3 counterexample | `uv run --frozen python repro/src/verify_nammd.py` | Claim 3 FALSIFIED; cumulative suite passes | local Apple M2 CPU |
 | [`orx/additive-release-candidate-and-visual-report`](https://github.com/MachineLearning-Nerd/icml26-repro-dWuxvV7ekd-nammd-dataset-closeness/tree/orx/additive-release-candidate-and-visual-report) | Add durable evidence, report, notebook, and additive Space candidate | `uv run --frozen python repro/src/verify_nammd.py` | Release regression passes at `6c13dd2` | local Apple M2 CPU |
 | [`orx/seal-release-provenance-after-passing-regression`](https://github.com/MachineLearning-Nerd/icml26-repro-dWuxvV7ekd-nammd-dataset-closeness/tree/orx/seal-release-provenance-after-passing-regression) | Seal completed release-run provenance and manifests | `uv run --frozen python repro/src/verify_nammd.py` | Cumulative release gate passes | local Apple M2 CPU |
-| `master` | Publication surface | Not run as an experiment (publication surface) | Awaiting explicit release approval | — |
+| `master` | Publication surface | Not run as an experiment (publication surface) | Published report, notebook, evidence, and Space provenance | — |
 
 ## Reproduce
 
