@@ -27,7 +27,7 @@ All runs used the local Apple M2 CPU, one locked repository `.venv`, and cost
 [![Open in molab](https://marimo.io/molab-shield.svg)](https://molab.marimo.io/github/MachineLearning-Nerd/icml26-repro-dWuxvV7ekd-nammd-dataset-closeness/blob/master/notebooks/nammd_claims.py)
 
 The approved text-only Space release is revision
-`294de81ec29008fb5b357e55393102447be5cf69`. The live judge has not evaluated
+`21969c11f261d021b8097df8838ad313e08d090a`. The live judge has not evaluated
 that revision, so the recorded score remains `5/12` and no increase is claimed.
 
 ## Experiment log

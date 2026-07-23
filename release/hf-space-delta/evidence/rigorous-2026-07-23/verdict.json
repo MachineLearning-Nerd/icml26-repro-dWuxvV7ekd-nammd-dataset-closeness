@@ -6,5 +6,6 @@
   "claim_4": "VERIFIED",
   "claim_5": "BLOCKED",
   "claim_6": "BLOCKED",
-  "live_judge_score_increase_claimed": false
+  "live_judge_score_increase_claimed": false,
+  "publication_status": "AWAITING JUDGE"
 }

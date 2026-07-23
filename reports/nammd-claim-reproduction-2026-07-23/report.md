@@ -161,7 +161,7 @@ after a one-line normalisation succeeded.
 The exact judged Hugging Face revision
 `9494ace83ec1c99632a33b773f64c82e12891405` was downloaded and hashed before
 candidate work. Its 17 files remain present in published revision
-`294de81ec29008fb5b357e55393102447be5cf69`: 16 are byte-identical, and
+`21969c11f261d021b8097df8838ad313e08d090a`: 16 are byte-identical, and
 `logbook.json` changes only to append two pages. No Hugging Face job was needed,
 no GPU was used, and local compute cost was `$0`.
 
@@ -172,4 +172,4 @@ from toy/inconclusive checks to direct `VERIFIED` or `FALSIFIED` evidence, while
 leaving Claims 5–6 `BLOCKED` for explicit provenance reasons. The live judge
 has not evaluated the published revision, so no score increase is claimed. The
 approved six-file text-only release is published at
-`294de81ec29008fb5b357e55393102447be5cf69`.
+`21969c11f261d021b8097df8838ad313e08d090a` and marked `AWAITING JUDGE`.
