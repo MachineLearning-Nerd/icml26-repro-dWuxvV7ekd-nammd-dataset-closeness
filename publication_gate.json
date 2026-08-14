@@ -1,8 +1,51 @@
 {
+  "schema_version": 2,
   "paper": "dWuxvV7ekd",
+  "paper_title": "Are Two Datasets Close Enough With Statistical Significance? A Kernel Distributional Closeness Testing Approach",
+  "authors": [
+    "Zhijian Zhou",
+    "Liuhua Peng",
+    "Xunye Tian",
+    "Mingming Gong",
+    "Feng Liu"
+  ],
+  "arxiv": "2507.12843v3",
   "tests_passed": true,
-  "publication_gate_passed": true,
-  "claims_verified": 6,
+  "evidence_release_gate": "PASSED",
+  "overall_status": "MIXED_RESULTS",
+  "strict_paper_claim_gate": "NOT_READY",
   "claims_total": 6,
-  "arxiv": "2507.12843"
+  "claims_verified": 2,
+  "claims_falsified": 2,
+  "claims_blocked": 2,
+  "claims": {
+    "C1": "VERIFIED_SCOPED",
+    "C2": "FALSIFIED_LITERAL_V1_BLOCKED_V3_ASYMPTOTIC",
+    "C3": "FALSIFIED",
+    "C4": "VERIFIED_SCOPED",
+    "C5": "BLOCKED",
+    "C6": "BLOCKED"
+  },
+  "publication": {
+    "space_id": "DineshAI/dWuxvV7ekd",
+    "published_revision": "21969c11f261d021b8097df8838ad313e08d090a",
+    "previous_judged_revision": "9494ace83ec1c99632a33b773f64c82e12891405",
+    "status": "AWAITING_JUDGE",
+    "previous_score": "5/12",
+    "score_increase_claimed": false
+  },
+  "repository": {
+    "owner": "MachineLearning-Nerd",
+    "original_name": "icml26-repro-dWuxvV7ekd-nammd-dataset-closeness",
+    "target_name": "icml26-nammd-dataset-closeness",
+    "default_branch": "main"
+  },
+  "branch_policy": {
+    "expected_public_branch_count": 8,
+    "legacy_refs_absent": [
+      "master",
+      "orx/*"
+    ],
+    "cleanup_status": "PENDING"
+  }
 }
